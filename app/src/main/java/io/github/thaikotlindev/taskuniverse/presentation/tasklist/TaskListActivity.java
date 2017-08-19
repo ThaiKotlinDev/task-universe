@@ -1,5 +1,6 @@
 package io.github.thaikotlindev.taskuniverse.presentation.tasklist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import io.github.thaikotlindev.taskuniverse.R;
 import io.github.thaikotlindev.taskuniverse.data.model.Task;
 import io.github.thaikotlindev.taskuniverse.data.repository.TaskRepository;
 import io.github.thaikotlindev.taskuniverse.presentation.di.Injector;
+import io.github.thaikotlindev.taskuniverse.presentation.taskdetails.TaskDetailsActivity;
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -41,9 +43,9 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Task task) {
                 // TODO : start task details activity
-//                Intent intent = new Intent(TaskListActivity.this, TaskDetailsActivity.class);
-//                intent.putExtra(TaskDetailsActivity.KEY_TASK_ID, task.getId());
-//                startActivity(intent);
+                Intent intent = new Intent(TaskListActivity.this, TaskDetailsActivity.class);
+                intent.putExtra(TaskDetailsActivity.KEY_TASK_ID, task.getId());
+                startActivity(intent);
             }
         });
     }

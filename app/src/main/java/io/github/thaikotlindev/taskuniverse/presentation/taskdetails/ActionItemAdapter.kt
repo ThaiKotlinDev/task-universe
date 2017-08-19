@@ -5,22 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.thaikotlindev.taskuniverse.R
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.viewholder_action_item.*
+import kotlin.properties.Delegates
+
+typealias ActionItemOnClick = (String) -> Unit
 
 class ActionItemAdapter : RecyclerView.Adapter<ActionItemAdapter.ViewHolder>() {
 
-    var actionItems: List<String> = listOf()
+    var actionItemClick: (ActionItemOnClick)? = null
 
-    class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    var actionItems: List<String> by Delegates.observable(listOf()) { _, _, _ ->
+        notifyDataSetChanged()
+    }
 
-        fun bind(itemTitle: String) {
-            // TODO #3
+    class ViewHolder(override val containerView: View?) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+        fun bind(itemTitle: String, onClick: (ActionItemOnClick)?) {
+            tvActionItem.text = itemTitle
+            onClick?.invoke(itemTitle)
         }
     }
 
-    override fun getItemCount(): Int {
-        // TODO #1
-        return 0
-    }
+    override fun getItemCount(): Int = actionItems.size
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.context)
@@ -29,6 +36,6 @@ class ActionItemAdapter : RecyclerView.Adapter<ActionItemAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        // TODO #2
+        holder?.bind(actionItems[position], actionItemClick)
     }
 }
